@@ -41,6 +41,13 @@ typedef NS_ENUM(NSUInteger, MPNumericTextFieldType) {
   MPNumericTextFieldInteger
 };
 
+@class MPNumericTextField;
+
+@protocol MPNumericTextFieldForwardDelegate <UITextFieldDelegate>
+@optional
+-(void)numericTextField:(MPNumericTextField *)textField wasChangedToByUser:(NSNumber *)value;
+@end
+
 IB_DESIGNABLE
 @interface MPNumericTextField : MPTextField
 
@@ -49,6 +56,6 @@ IB_DESIGNABLE
 @property (nonatomic, strong) NSLocale                     *locale;
 @property (nonatomic, copy)   NSString                     *currencyCode;
 @property (nonatomic, assign) NSNumber                     *numericValue;
-@property (nonatomic, readonly) id<UITextFieldDelegate>     forwardDelegate;
+@property (nonatomic, readonly) id<MPNumericTextFieldForwardDelegate>     forwardDelegate;
 
 @end

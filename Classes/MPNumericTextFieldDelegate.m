@@ -43,7 +43,7 @@
  * Reads the forward delegate from the `MPNumericTextField` instance, if present.
  * If the `textField` object is not a numeric text field returns a nil value.
  */
-- (id<UITextFieldDelegate>) getForwardDelegateFrom:(UITextField *)textField {
+- (id<MPNumericTextFieldForwardDelegate>) getForwardDelegateFrom:(UITextField *)textField {
   if ([textField isKindOfClass:[MPNumericTextField class]]) {
     return ((MPNumericTextField *)textField).forwardDelegate;
   }
@@ -211,7 +211,12 @@
         fxText.encodedValue = [MPFormatterUtils stringFromInteger:number locale:locale];
     }
   }
-  
+	
+  id delegate = [self getForwardDelegateFrom:textField];
+  if (delegate && [delegate respondsToSelector:@selector(numericTextField:wasChangedToByUser:)]) {
+    [delegate numericTextField:fxText wasChangedToByUser:fxText.numericValue];
+  }
+
   //always return no since we are manually changing the text field
   return NO;
 }
